@@ -1,18 +1,28 @@
+from enum import unique
 from os import abort
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
+db = SQLAlchemy(app)
 
-
-app = Flask(__name__)\
+class Item(db.Model):
+    number = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=150), nullable=False, unique=True )
+    price = db.Column(db.Integer(), nullable=False)
+    barcode = db.Column(db.String(length=15), nullable=False, unique=True)
+    description = db.Column(db.String(length=1024), nullable=False, unique=True)
     
+    def __repr__(self):
+        return f"Item{self.name}"
+
+
+
 @app.route('/')
 def home_page():
     return render_template("home.html")
 
 @app.route('/market')
 def market_page():
-    items = [
-        {"id":1, "name":"Iphone- 13 pro MaX", "barcode":"566595929595678", "price": "1400$"},
-        {"id":2, "name":"Acer-Aspire 5", "barcode":"85455655656785", "price": "1899$"},
-        {"id":3, "name":"Keyboard-Razer mamba", "barcode":"566595929595678", "price": "140$"}     
-    ]
-    return render_template("market.html", items = items )
+    items = Item.query.all()
+    return render_template("market.html", items = items)
