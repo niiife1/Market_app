@@ -1,9 +1,11 @@
 from enum import unique
 from run import db
-
-
+from sqlalchemy import Column, ForeignKey, Integer, Table
+from sqlalchemy.orm import declarative_base, relationship
+from market.models import db
+Base = declarative_base
 class User(db.Model):
-    _table_args_ = {'extend_existing': True}
+    _tablename_ = "user"
     number = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email_address = db.Column(db.String(length=70), nullable=False, unique=True)
@@ -12,7 +14,9 @@ class User(db.Model):
     items = db.relationship('Item', backref="owned_user", lazy=True)
     
     
+
 class Item(db.Model):
+    _tablename_ = "item"
     number = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(length=150), nullable=False, unique=True )
     price = db.Column(db.Integer(), nullable=False)
