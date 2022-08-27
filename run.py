@@ -6,14 +6,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market2.db'
 db = SQLAlchemy(app)
     
-class Item(db.Model):
-    number = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(length=150), nullable=False, unique=True )
-    price = db.Column(db.Integer(), nullable=False)
-    barcode = db.Column(db.String(length=15), nullable=False, unique=True)
-    description = db.Column(db.String(length=1024), nullable=False, unique=True)
-    
-    def __repr__(self):
+# class Item(db.Model):
+#     number = db.Column(db.Integer(), primary_key=True)
+#     name = db.Column(db.String(length=150), nullable=False, unique=True )
+#     price = db.Column(db.Integer(), nullable=False)
+#     barcode = db.Column(db.String(length=15), nullable=False, unique=True)
+#     description = db.Column(db.String(length=1024), nullable=False, unique=True)
+def __repr__(self):
         return f"Item{self.name}"
 
 
