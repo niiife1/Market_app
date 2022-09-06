@@ -1,4 +1,4 @@
-from run import db
+from market.__init__ import db
 
 class User(db.Model):
     number = db.Column(db.Integer(), primary_key=True)
