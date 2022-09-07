@@ -4,5 +4,33 @@
 {% endblock  %}
 
 {% block content%}
-<h1>register form</h1>
+<body class = 'text-center'>
+    <div class='container'>
+    <form method="POST"class="from-register" style="colorL:white">
+        {{ form.hidden_tag() }}
+       <img src= 'http://www.clker.com/cliparts/v/B/S/E/B/6/red-rectangle-join-us-button-md.png'>
+        <h1 class ='h3 mb - 3 font-weight-normal'>
+            Please Create your Account!!
+        </h1>
+        <br>
+        {{form.username.label()}}
+        {{form.username(class='form-control', placeholder='User Name')}}
+
+        {{form.email_address.label()}}
+        {{form.email_address(class='form-control', placeholder='Email Address')}}
+
+        {{form.password1.label()}}
+        {{form.password1(class='form-control', placeholder='Password')}}
+
+        {{form.password2.label()}}
+        {{form.password2(class='form-control', placeholder='Confirm Password')}}
+
+            <br>
+
+            {{form.submit(class='btn btn-lg btn-block btn-primary')}}
+
+
+    </form>
+</div>
+</body>
 {% endblock%}
