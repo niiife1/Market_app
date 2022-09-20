@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title  %}
+    login page
+{% endblock  %}
+{% block content%}
+<body class = 'text-center'>
+    <div class='container'>
+        <form method="POST"class="from-register" style="colorL:white">
+            {{ form.hidden_tag() }}
+           <img src= 'http://www.clker.com/cliparts/v/B/S/E/B/6/red-rectangle-join-us-button-md.png'>
+            <h1 class ='h3 mb - 3 font-weight-normal'>
+                Please Login !!
+            </h1>
+            <br>
+            {{form.username.label()}}
+            {{form.username(class='form-control', placeholder='User Name')}}
+    
+          
+    
+            {{form.password.label()}}
+            {{form.password(class='form-control', placeholder='Password')}}
+    
+                <br>
+            <div class='checkbox mb-3'>
+                <h6>Do not have Account?</h6>
+                <a class='btn btn-sm btn-secondary' href ="{{ url_for('register_page') }}">Register NOW!!</a>
+            </div>
+                {{form.submit(class='btn btn-lg btn-block btn-primary')}}
+    
+    
+        </form>
+    </div>
+
+</body>
+{% endblock%}

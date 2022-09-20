@@ -1,4 +1,6 @@
+import imp
 from market.__init__ import db
+from market import bcrypt
 
 class User(db.Model):
     number = db.Column(db.Integer(), primary_key=True)
@@ -8,6 +10,14 @@ class User(db.Model):
     budge =db.Column (db.Integer(), nullable=False, default=10000)
     items = db.relationship('Item', backref="owned_user", lazy=True)
     
+    
+    @property
+    def password(self):
+        return self.password
+    
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_defense = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
     
 class Item(db.Model):
     number = db.Column(db.Integer(), primary_key=True)
