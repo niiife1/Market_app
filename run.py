@@ -1,13 +1,17 @@
+from unicodedata import category
 from market.models import User , Item
 from flask import Flask, render_template, redirect, url_for , flash
 from flask_sqlalchemy import SQLAlchemy
 from market.forms import RegisterForm,LoginForm
+from flask_login import LoginManager
+from flask_login import login_user
 app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market2.db'
 app.config['SECRET_KEY'] = '239kf389fj38f3j83j38'
 db = SQLAlchemy(app)
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+login_manager = LoginManager()
 @app.route('/')
 def home_page():
     return render_template("home.html")
@@ -41,6 +45,12 @@ def register_page():
     
 def login_page():
     form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.get(form.username.data)
+        if attempted_user and  attempted_user.check_password_correct(attempted_password=form.password.data):    
+           login_user(attempted_user)
+           flash(f"Success! You  Login {attempted_user.username}", category='success')
+           return redirect(url_for('market_page'))
+        else:
+           flash('Username or password not match!! Try again',category="danger")
     return render_template('login.html', form=form)
-    if __name__=="__run__":
-            app.run(debug=True)
