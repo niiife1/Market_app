@@ -1,15 +1,11 @@
-import imp
-from market.__init__ import db, login_manager
+from market.__init__ import db
 from market import bcrypt
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+from flask_login import UserMixin
 
 
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     number = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email_address = db.Column(db.String(length=70), nullable=False, unique=True)
@@ -27,7 +23,7 @@ class User(db.Model):
         self.password_defense = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
     
     def check_password_correct(self,  attempted_password):
-        if bcrypt.check_password_hash(self.password_hash, attempted_password):
+        if bcrypt.check_password_hash(self.password_defense, attempted_password):
             return True
     
 class Item(db.Model):
