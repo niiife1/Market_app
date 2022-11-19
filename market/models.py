@@ -1,11 +1,11 @@
-from market.__init__ import db , login_manager
+from market import db , login_manager
 from market import bcrypt
 from flask_login import UserMixin
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def load_user(user_number):
+    return User.query.get(int(user_number))
 
 
 class User(db.Model, UserMixin):
@@ -15,7 +15,6 @@ class User(db.Model, UserMixin):
     password_defense = db.Column(db.String(length=60), nullable=False)
     budge =db.Column (db.Integer(), nullable=False, default=10000)
     items = db.relationship('Item', backref="owned_user", lazy=True)
-    
     
     @property
     def password(self):
@@ -36,6 +35,5 @@ class Item(db.Model):
     barcode = db.Column(db.String(length=15), nullable=False, unique=True)
     description = db.Column(db.String(length=1024), nullable=False, unique=True)
     owner = db.Column(db.Integer(),db.ForeignKey('user.number'))
-    
     def __repr__(self):
         return f"Item{self.name}"
